@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<style>
+    .a:hover{
+        background: #8D6E63;
+        color: white;
+        transition: all ease 1s;
+    }
+</style>
+<div class="row" style="min-height:200px;">
+    <div class="h2 text-center">Our <b class="text-danger">Products <i class=" fa fa-product-hunt"></i> </b></div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-3">
+<ul class="list-group">
+  <li class="list-group-item active" style="background: #8D6E63;" aria-current="true">Our Brands </li>
+ {% if cat %}
+    {% for x in cat %}
+ <a href="/user/products?abc={{x.id}}" style="text-decoration: none;"><li class="list-group-item a">{{x.cname}}</li></a>
+    {% endfor %}
+    {% endif%}
+     <a href="/user/products/" style="text-decoration: none;"><li class="list-group-item a">All Brands</li></a>
+
+</ul>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+{% if products %}
+    {% for x in products %}
+    <div class="col-sm-4">
+        <div class="card w-100">
+            <img src="/{{x.ppic}}" class="card-img-top" alt="Abhi Lagana Hai">
+            <div class="card-body">
+                <h5 class="card-title">{{x.category}}</h5>
+                <p class="fs-4">{{x.name}}</p>
+                <div style="height:15px;width:15px;border-radius:3px;background:{{x.color}};"></div>
+                <b>Rs. </b> <s class="text-danger">{{x.tprice}}/</s> {{x.disprice}}/<br/>
+                <a href="/user/viewdetails?msg={{x.id}}" class="btn text-light rounded" style="background: #795548;">Buy Now</a>
+                <a href="/user/process?pid={{x.id}}&bn=cart" class="btn text-light rounded" style="background: #795548;"><i class="fa fa-shopping-cart"></i></a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+{% endblock %}
