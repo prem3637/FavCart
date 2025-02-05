@@ -46,23 +46,24 @@ def myorder(request):
         if oid:
             result=order.objects.filter(id=oid,userid=userid)
             result.delete()
-            return HttpResponse("<script>alert('Your order has been Cancelled');window.location.href='/user/myorder'</script>")
+            return HttpResponse("<script>window.location.href='/user/myorder'</script>")
     return render(request,'user/myorder.html',{"pendingorder":orderdata,"nitem":numitem})
 
 def myprofile(request):
         numitem=addtocart.objects.all().count()
         user=request.session.get('userid')
         pdata=profile.objects.filter(email=user)
+        prodata=profile.objects.filter(email=user).first()
         if user:
             if request.method == 'POST':
-                name = request.POST.get("name", "")
-                DOB = request.POST.get("dob", "")
-                Mobile = request.POST.get("mobile", "")
-                Password = request.POST.get("passwd", "")
-                ProfilePhoto = request.POST.get("myfile","")
-                Address = request.POST.get("address", "")
+                name = request.POST.get("name", "") or prodata.name 
+                DOB = request.POST.get("dob", "") or prodata.dob 
+                Mobile = request.POST.get("mobile", "") or prodata.mobile 
+                Password = request.POST.get("passwd", "") or prodata.passwd 
+                ProfilePhoto = request.FILES.get("myfile","") or prodata.myfile 
+                Address = request.POST.get("address", "") or prodata.address 
                 profile(email=user,name=name,dob=DOB,passwd=Password,mobile=Mobile,myfile=ProfilePhoto,address=Address).save()
-                return HttpResponse("<script>alert('Your Profile updated Successfully..');window.location.href='/user/myprofile'</script>")
+                return HttpResponse("<script>window.location.href='/user/myprofile'</script>")
 
         return render(request,'user/myprofile.html',{"profile":pdata,"nitem":numitem})
 
@@ -92,11 +93,11 @@ def signup(request):
         d=profile.objects.filter(email=Email)
 
         if d.count()>0:
-            return HttpResponse("<script>alert('You are already registered..');window.location.href='/user/signup/'</script>")
+            return HttpResponse("<script>window.location.href='/user/signup/'</script>")
         else:
             res=profile(name=name,dob=DOB,mobile=Mobile,email=Email,passwd=Password,myfile=ProfilePhoto,address=Address)
             res.save()
-            return HttpResponse("<script>alert('You are registered successfully..');window.location.href='/user/signup/'</script>")
+            return HttpResponse("<script>window.location.href='/user/signup/'</script>")
 
         #return HttpResponse("<script>alert('Thanks For SignUp..');window.location.href='/user/signup/';</script>")
     return render(request,'user/signup.html',{"nitem":numitem})
@@ -110,10 +111,10 @@ def signin(request):
         checkuser=profile.objects.filter(email=uname,passwd=passwd)
         if(checkuser):
             request.session['userid']=uname
-            return HttpResponse("<script>alert('Logged In Successfully');window.location.href='/user/signin';</script>")
+            return HttpResponse("<script>window.location.href='/user/home';</script>")
 
         else:
-            return HttpResponse("<script>alert('UserID or Password is Incorrect');window.location.href='/user/signin';</script>")
+            return HttpResponse("<script>window.location.href='/user/signin';</script>")
     return render(request,'user/signin.html',{"nitem":numitem})
 
 def viewdetails(request):
@@ -132,7 +133,7 @@ def process(request):
             checkcartitem=addtocart.objects.filter(pid=pid,userid=userid)
             if checkcartitem.count()==0:
                 addtocart(pid=pid,userid=userid,status=True,cdate=datetime.datetime.now()).save()
-                return HttpResponse("<script>alert('Your items is successfully added in cart..');window.location.href='/user/home/'</script>")
+                return HttpResponse("<script>window.location.href='/user/home/'</script>")
             else:
                 return HttpResponse("<script>alert('This item is already in cart...');window.location.href='/user/home/'</script>")
         elif btn=='order':
@@ -165,7 +166,7 @@ def cart(request):
         if request.GET.get('pid'):
             res=addtocart.objects.filter(id=pid,userid=userid)
             res.delete()
-            return HttpResponse("<script>alert('Your product has been Remove successfully');window.location.href='/user/cart'</script>")
+            return HttpResponse("<script>window.location.href='/user/cart'</script>")
 
 
     return render(request,'user/cart.html',{"cart":cartdata,"nitem":numitem})

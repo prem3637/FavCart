@@ -2,6 +2,12 @@
 {% load static %}
 
 {% block content %}
+<style>
+  .profileImage{
+    height: 100px;
+    width: 140px;
+  }
+</style>
 <div class="row">
     <div class="h2 text-center py-3">My <b class="text-danger">Profile <i class="fa fa-users"></i> </b></div>
     <div class="col-sm-2"></div>
@@ -12,8 +18,10 @@
                 {% for x in profile %}
                 <div class="card mb-3">
                     <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="/{{x.myfile}}" class="img-fluid rounded-start" alt="...">
+                      <div class="col-md-4 d-flex justify-content-center py-3">
+                        <div class="profileImage">
+                          <img src="/{{x.myfile}}" class="img-fluid rounded-start" alt="...">
+                        </div>
                       </div>
                       <div class="col-md-8">
                         <div class="card-body">
@@ -34,21 +42,21 @@
                 {% csrf_token %}<!---cross site refered-->
                 <div class="row">
                     <div class="col-sm-12">
-                        Name*<input type="text" name="name" class="form-control" placeholder="Enter Your Name"/>
-                        Date Of Birth*<input type="date" name="dob" class="form-control" placeholder="DD/MM/YYYY"/>
+                        Name*<input type="text" name="name" value="{{x.name}}" class="form-control" placeholder="Enter Your Name"/>
+                        Date Of Birth*<input type="date" name="dob" value="{{ x.dob|date:'Y-m-d' }}" class="form-control" placeholder="DD/MM/YYYY"/>
                         <!---Gender* &nbsp<input type="radio" name="gender" value="male"/> Male
                                 <input type="radio" name="gender" value="female"> Female<br/>-->
-                        Mobile No.*<input type="number" name="mobile"  class="form-control"
+                        Mobile No.*<input type="number" name="mobile" value="{{x.mobile}}"  class="form-control"
                                           placeholder="Enter Mobile No."/>
-                        Email*<input type="email" name="email" class="form-control"
-                                     placeholder="Enter Your Email"/>
-                        Possword*<input type="password" name="passwd" class="form-control"
+                        <!-- Email*<input type="email" name="email" value="{{x.email}}" class="form-control"
+                                     placeholder="Enter Your Email"/> -->
+                        Possword*<input type="password" name="passwd" value="{{x.passwd}}" class="form-control"
                                         placeholder="Create Possword"/>
                         Upload Photo*<br/><input type="file" id="myfile" name="myfile" class="form-control">
                         Address*<textarea class="form-control txta" name="address" style="resize:none"
-                                          placeholder="Enter your Address..."></textarea>
+                                          placeholder="Enter your Address...">{{x.address}}</textarea>
                           <br>
-                        <input type="submit" value="Sign Up" class="btn text-light form-control" style="background: #795548;"/>
+                        <input type="submit" value="Update" class="btn text-light form-control" style="background: #795548;"/>
                     </div>
                 </div>
             </form>

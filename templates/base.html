@@ -143,9 +143,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="/user/myprofile">My Profile</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/user/signup">Sign Up</a>
-                                    </li>
                                     {% if request.session.userid %}
                                     <li class="nav-item">
                                         <a class="nav-link" href="/user/logout/">Logout</a>
@@ -158,6 +155,9 @@
                                         <a class="nav-link" href="/user/cart/"> <b class=""><i class="fa fa-shopping-cart"></i>{{nitem}}</b></a>
                                     </li>
                                     {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/user/signup">Sign Up</a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="/user/signin/">Login</a>
                                     </li>
